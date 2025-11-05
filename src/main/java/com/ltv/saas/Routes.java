@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -50,12 +51,16 @@ public class Routes {
             
             // Get return rate this week
             double returnRate = sellerService.getReturnRateThisWeek(id);
+            
+            // Get alerts
+            List<String> alerts = sellerService.getAlerts(id);
 
             // Create response object (LinkedHashMap maintains insertion order)
             Map<String, Object> response = new LinkedHashMap<>();
             response.put("totalSalesThisWeek", totalSales);
             response.put("totalRevenueThisWeek", totalRevenue);
             response.put("returnRate", returnRate);
+            response.put("alerts", alerts);
 
             return ResponseEntity.ok(response);
 
