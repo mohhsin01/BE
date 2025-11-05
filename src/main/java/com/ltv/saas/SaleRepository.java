@@ -26,4 +26,12 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
         @Param("startDate") String startDate,
         @Param("endDate") String endDate
     );
+    
+    // OPTIMIZED: Get all sales (including returns) for stream-based filtering
+    @Query(value = "SELECT * FROM sales WHERE seller_id = :sellerId AND date >= :startDate AND date <= :endDate", nativeQuery = true)
+    List<Sale> findAllSalesBySellerAndDateRange(
+        @Param("sellerId") Long sellerId,
+        @Param("startDate") String startDate,
+        @Param("endDate") String endDate
+    );
 }

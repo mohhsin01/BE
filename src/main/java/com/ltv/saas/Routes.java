@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -43,24 +42,15 @@ public class Routes {
                 return ResponseEntity.status(404).body(error);
             }
 
-            // Get total sales this week
-            int totalSales = sellerService.getTotalSalesThisWeek(id);
-            
-            // Get total revenue this week
-            double totalRevenue = sellerService.getTotalRevenueThisWeek(id);
-            
-            // Get return rate this week
-            double returnRate = sellerService.getReturnRateThisWeek(id);
-            
-            // Get alerts
-            List<String> alerts = sellerService.getAlerts(id);
+            // OPTIMIZED: Use cached method that fetches all data in one optimized query + stream operations
+            SellerService.SellerSummaryData summary = sellerService.getSellerSummaryOptimized(id);
 
             // Create response object (LinkedHashMap maintains insertion order)
             Map<String, Object> response = new LinkedHashMap<>();
-            response.put("totalSalesThisWeek", totalSales);
-            response.put("totalRevenueThisWeek", totalRevenue);
-            response.put("returnRate", returnRate);
-            response.put("alerts", alerts);
+            response.put("totalSalesThisWeek", summary.totalSales);
+            response.put("totalRevenueThisWeek", summary.totalRevenue);
+            response.put("returnRate", summary.returnRate);
+            response.put("alerts", summary.alerts);
 
             return ResponseEntity.ok(response);
 
