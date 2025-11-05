@@ -47,11 +47,15 @@ public class Routes {
             
             // Get total revenue this week
             double totalRevenue = sellerService.getTotalRevenueThisWeek(id);
+            
+            // Get return rate this week
+            double returnRate = sellerService.getReturnRateThisWeek(id);
 
             // Create response object
             Map<String, Object> response = new HashMap<>();
             response.put("totalSalesThisWeek", totalSales);
             response.put("totalRevenueThisWeek", totalRevenue);
+            response.put("returnRate", returnRate);
 
             return ResponseEntity.ok(response);
 

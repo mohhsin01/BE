@@ -19,4 +19,11 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     
     @Query(value = "SELECT COUNT(*) FROM sales WHERE seller_id = :sellerId", nativeQuery = true)
     Integer countBySellerId(@Param("sellerId") Long sellerId);
+    
+    @Query(value = "SELECT COUNT(*) FROM sales WHERE seller_id = :sellerId AND date >= :startDate AND date <= :endDate AND returned = 1", nativeQuery = true)
+    Integer countReturnsBySellerAndDateRange(
+        @Param("sellerId") Long sellerId,
+        @Param("startDate") String startDate,
+        @Param("endDate") String endDate
+    );
 }

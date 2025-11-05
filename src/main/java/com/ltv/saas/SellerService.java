@@ -56,4 +56,34 @@ public class SellerService {
                 .mapToDouble(sale -> sale.getPrice() * sale.getQuantity())
                 .sum();
     }
+    
+    public double getReturnRateThisWeek(Long sellerId) {
+        // Calculate start and end dates of this week
+        LocalDate today = LocalDate.now();
+        LocalDate startOfWeek = today.with(DayOfWeek.MONDAY);
+        LocalDate endOfWeek = today.with(DayOfWeek.SUNDAY);
+        
+        // Convert to String format (YYYY-MM-DD) for SQLite
+        String startDate = startOfWeek.toString();
+        String endDate = endOfWeek.toString();
+        
+        // Get count of returns this week
+        Integer returnsCount = saleRepository.countReturnsBySellerAndDateRange(
+            sellerId, 
+            startDate, 
+            endDate
+        );
+        
+        // Get count of sales this week (non-returned)
+        int salesCount = getTotalSalesThisWeek(sellerId);
+        
+        // Calculate return rate: returns ÷ sales
+        // Handle division by zero (if no sales, return rate is 0)
+        if (salesCount == 0) {
+            return 0.0;
+        }
+        
+        // Return as percentage (multiply by 100)
+        return ((double) returnsCount / salesCount) * 100.0;
+    }
 }
