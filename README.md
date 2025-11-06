@@ -1,2 +1,0 @@
-# BE
-A stringboot backend
