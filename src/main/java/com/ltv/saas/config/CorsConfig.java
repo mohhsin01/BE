@@ -14,22 +14,13 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         
-        // Allow requests from frontend (Vite default port)
         config.addAllowedOrigin("http://localhost:5173");
         config.addAllowedOrigin("http://localhost:5174");
         config.addAllowedOrigin("http://localhost:3000");
-        
-        // Allow all HTTP methods
         config.addAllowedMethod("*");
-        
-        // Allow all headers
         config.addAllowedHeader("*");
-        
-        // Allow credentials (cookies, authorization headers)
         config.setAllowCredentials(true);
-        
         source.registerCorsConfiguration("/api/**", config);
         return new CorsFilter(source);
     }
 }
-

@@ -13,19 +13,17 @@ public class Sale {
     @Column(name = "seller_id")
     private Long sellerId;
     
-    private String date;  // SQLite stores dates as TEXT
+    private String date; 
     
     private Integer quantity;
     
     private Double price;
     
-    private Integer returned;  // 0 or 1 (0 = not returned, 1 = returned)
-    
-    // Default constructor (required by JPA)
+    private Integer returned;
+
     public Sale() {
     }
     
-    // Constructor with all fields
     public Sale(Long sellerId, String date, Integer quantity, Double price, Integer returned) {
         this.sellerId = sellerId;
         this.date = date;
@@ -34,7 +32,6 @@ public class Sale {
         this.returned = returned;
     }
     
-    // Getters and Setters
     public Long getId() {
         return id;
     }

@@ -35,7 +35,7 @@ public class Routes {
     @GetMapping("/seller/{id}/summary")
     public ResponseEntity<?> getSellerSummary(@PathVariable Long id) {
         try {
-            // Check if seller exists (check if they have any sales)
+            
             Integer salesCount = saleRepository.countBySellerId(id);
             if (salesCount == null || salesCount == 0) {
                 Map<String, String> error = new LinkedHashMap<>();
@@ -44,10 +44,8 @@ public class Routes {
                 return ResponseEntity.status(404).body(error);
             }
 
-            // OPTIMIZED: Use cached method that fetches all data in one optimized query + stream operations
             SellerService.SellerSummaryData summary = sellerService.getSellerSummaryOptimized(id);
 
-            // Create response object (LinkedHashMap maintains insertion order)
             Map<String, Object> response = new LinkedHashMap<>();
             response.put("totalSalesThisWeek", summary.totalSales);
             response.put("totalRevenueThisWeek", summary.totalRevenue);
@@ -57,7 +55,6 @@ public class Routes {
             return ResponseEntity.ok(response);
 
         } catch (Exception e) {
-            // Return 500 error for any exception
             Map<String, String> error = new LinkedHashMap<>();
             error.put("error", "Internal server error");
             error.put("message", e.getMessage());

@@ -14,17 +14,17 @@ public class Seller {
     
     private String region;
     
-    // Default constructor (required by JPA)
+
     public Seller() {
     }
     
-    // Constructor with all fields
+
     public Seller(String name, String region) {
         this.name = name;
         this.region = region;
     }
     
-    // Getters and Setters
+  
     public Long getId() {
         return id;
     }
